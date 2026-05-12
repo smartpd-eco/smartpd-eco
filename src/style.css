@@ -362,3 +362,90 @@ textarea:focus{border-color:var(--acc-b)}
 textarea.required-empty{border-color:var(--bd2)}
 textarea.required-empty::placeholder{color:#6B3A2A}
 textarea.has-content{border-color:var(--acc-b)}
+
+/* ══════════════════════════════════
+   RESPONSIVE (MOBILE) — v5
+══════════════════════════════════ */
+@media (max-width: 850px) {
+  .app {
+    grid-template-columns: 1fr;
+    grid-template-rows: 48px 1fr 60px; /* 탑바 - 메인 - 바텀바 */
+  }
+  
+  .sidebar {
+    grid-row: 3;
+    grid-column: 1;
+    flex-direction: row;
+    padding: 0 var(--s2);
+    align-items: center;
+    justify-content: space-around;
+    border-right: none;
+    border-top: 1px solid var(--bd);
+    overflow-y: hidden;
+    gap: 0;
+    z-index: 100;
+  }
+  
+  .slab { display: none; } /* 모바일에서 메뉴 섹션 제목 숨김 */
+  
+  .si {
+    flex-direction: column;
+    gap: 4px;
+    font-size: 10px;
+    padding: 6px 0;
+    width: 64px;
+    border-radius: 0;
+  }
+  
+  .si i { font-size: 20px; }
+  .si .sbc {
+    position: absolute;
+    top: 4px;
+    right: 8px;
+    margin-left: 0;
+    font-size: 9px;
+  }
+
+  .topbar { padding: 0 var(--s2); }
+  .breadcrumb { margin-left: var(--s2); }
+  .status-pill span { display: none; } /* 글자 숨기고 아이콘만 */
+  
+  .panel { padding: var(--s2); }
+  .ph h1 { font-size: 19px; }
+  
+  /* 그리드들을 1열로 변경 */
+  .stats { grid-template-columns: 1fr 1fr; gap: var(--s1); }
+  .sv { font-size: 22px; }
+  
+  .supgrid { grid-template-columns: 1fr; gap: var(--s2); }
+  .scname { font-size: 16px; }
+  
+  .pstrip { padding: var(--s2); flex-direction: column; align-items: flex-start; gap: var(--s1); }
+  .ps::after { display: none; }
+  
+  /* 테이블 대응 */
+  .tbl-wrap { overflow-x: auto; }
+  table { min-width: 600px; }
+  
+  /* 상세 패널 1열 */
+  .dp-body { grid-template-columns: 1fr; }
+  .dp-sec { border-right: none; border-bottom: 1px solid var(--bd); padding: var(--s2); }
+  .dp-sec:last-child { border-bottom: none; }
+  
+  /* 온보딩 대응 */
+  .obwrap { max-width: 100%; }
+  .obhead h2 { font-size: 18px; }
+  .obsteps { gap: 4px; }
+  .plabel { font-size: 11px; }
+
+  /* 토스트/언두 위치 조정 (바텀바 위로) */
+  .undo-toast { bottom: 70px; right: var(--s2); left: var(--s2); min-width: auto; }
+  .tw { bottom: 70px; right: var(--s2); left: var(--s2); }
+  .toast { max-width: none; width: 100%; }
+}
+
+@media (max-width: 480px) {
+  .stats { grid-template-columns: 1fr; }
+  .top-right { gap: 4px; }
+  .logo span { display: none; } /* 로고 텍스트 숨김 */
+}
