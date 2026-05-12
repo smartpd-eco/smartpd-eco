@@ -3,350 +3,515 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>공장 자재 관리 v5</title>
+<title>SmartPD Eco — 스마트 공장 관리 플랫폼</title>
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css">
-<link rel="stylesheet" href="style.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0f1117;
+    --bg2: #161b27;
+    --bg3: #1e2535;
+    --border: #2a3352;
+    --accent: #4f8ef7;
+    --accent2: #6ee7b7;
+    --text: #e8eaf0;
+    --text2: #8b92a8;
+    --red: #f87171;
+    --yellow: #fbbf24;
+    --purple: #a78bfa;
+  }
+
+  body {
+    font-family: 'Pretendard', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── NAV ── */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    height: 60px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .nav-logo i { font-size: 22px; }
+  .nav-links {
+    display: flex;
+    gap: 8px;
+  }
+  .nav-links a {
+    color: var(--text2);
+    text-decoration: none;
+    font-size: 13px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: all 0.15s;
+  }
+  .nav-links a:hover {
+    color: var(--text);
+    background: var(--bg3);
+  }
+  .nav-badge {
+    background: var(--accent);
+    color: white;
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    text-align: center;
+    padding: 80px 2rem 60px;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(79,142,247,0.12);
+    border: 1px solid rgba(79,142,247,0.3);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+    letter-spacing: 0.5px;
+  }
+  .hero h1 {
+    font-size: clamp(28px, 5vw, 46px);
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 18px;
+    background: linear-gradient(135deg, #e8eaf0 0%, var(--accent) 60%, var(--accent2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p {
+    font-size: 16px;
+    color: var(--text2);
+    line-height: 1.7;
+    margin-bottom: 36px;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: white;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.15s;
+  }
+  .btn-primary:hover { background: #3a7de8; transform: translateY(-1px); }
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg3);
+    color: var(--text);
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    transition: all 0.15s;
+  }
+  .btn-secondary:hover { background: var(--border); transform: translateY(-1px); }
+
+  /* ── STATS ── */
+  .stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 20px 2rem 60px;
+    flex-wrap: wrap;
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat-num {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--accent);
+  }
+  .stat-label {
+    font-size: 12px;
+    color: var(--text2);
+    margin-top: 2px;
+  }
+
+  /* ── APPS GRID ── */
+  .section {
+    padding: 0 2rem 80px;
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .section-header h2 {
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .section-header .line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .apps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  .app-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s;
+    display: block;
+    position: relative;
+    overflow: hidden;
+  }
+  .app-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--card-color, var(--accent));
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .app-card:hover {
+    border-color: var(--card-color, var(--accent));
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  }
+  .app-card:hover::before { opacity: 1; }
+
+  .card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: rgba(79,142,247,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin-bottom: 14px;
+    color: var(--card-color, var(--accent));
+  }
+  .card-title {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .card-desc {
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.5;
+    margin-bottom: 14px;
+  }
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .card-tag {
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    background: rgba(79,142,247,0.12);
+    color: var(--card-color, var(--accent));
+  }
+  .card-tag.new {
+    background: rgba(110,231,183,0.12);
+    color: var(--accent2);
+  }
+  .card-tag.beta {
+    background: rgba(251,191,36,0.12);
+    color: var(--yellow);
+  }
+  .card-arrow {
+    color: var(--text2);
+    font-size: 16px;
+    transition: color 0.15s;
+  }
+  .app-card:hover .card-arrow { color: var(--card-color, var(--accent)); }
+
+  /* ── FEATURES ── */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+  }
+  .feat-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+  .feat-icon {
+    font-size: 20px;
+    color: var(--accent2);
+    margin-top: 1px;
+    flex-shrink: 0;
+  }
+  .feat-title { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+  .feat-desc { font-size: 12px; color: var(--text2); }
+
+  /* ── FOOTER ── */
+  footer {
+    margin-top: auto;
+    border-top: 1px solid var(--border);
+    padding: 24px 2rem;
+    text-align: center;
+    color: var(--text2);
+    font-size: 12px;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+
+  @media (max-width: 600px) {
+    .stats { gap: 24px; }
+    .hero { padding: 50px 1rem 40px; }
+    .section { padding: 0 1rem 50px; }
+    nav { padding: 0 1rem; }
+    .nav-links { display: none; }
+  }
+</style>
 </head>
 <body>
-<div class="app">
 
-<!-- ══ TOPBAR — 브레드크럼 전용, 메뉴 아님 ══ -->
-<header class="topbar">
-  <div class="logo"><i class="ti ti-building-factory-2"></i>공장 자재 관리</div>
-  <div class="breadcrumb">
-    <span class="bc-item">홈</span>
-    <span class="bc-sep"><i class="ti ti-chevron-right" style="font-size:11px"></i></span>
-    <span class="bc-item current" id="bc-current">입고 확인</span>
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <i class="ti ti-building-factory-2"></i>
+    SmartPD Eco
   </div>
-  <div class="top-right">
-    <div class="status-pill online" id="status-pill">
-      <i class="ti ti-wifi" style="font-size:12px"></i>연결됨
-    </div>
-    <button class="btn bg" style="font-size:11px" onclick="toggleOffline()">
-      <i class="ti ti-wifi-off"></i>오프라인 시뮬
-    </button>
+  <div class="nav-links">
+    <a href="#apps">앱 목록</a>
+    <a href="#features">기능</a>
+    <a href="dashboard.html">대시보드 열기 →</a>
   </div>
-</header>
+</nav>
 
-<!-- ══ SIDEBAR — 글로벌 네비 전용 ══ -->
-<aside class="sidebar">
-  <div class="slab">주요 작업</div>
-  <!-- 아이콘+텍스트 항상 병행 (표준) -->
-  <div class="si active" onclick="go('f1','입고 확인')">
-    <i class="ti ti-barcode"></i>입고 확인
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">
+    <i class="ti ti-sparkles" style="font-size:13px"></i>
+    스마트 공장 관리 플랫폼
   </div>
-  <div class="si" onclick="go('f2','재고 현황')">
-    <i class="ti ti-box"></i>재고 현황<span class="sbc">2</span>
+  <h1>공장 운영을<br>더 스마트하게</h1>
+  <p>SmartPD Eco는 공장의 자재 관리, 재고 현황, 입출고 기록을<br>
+  한 곳에서 관리할 수 있는 통합 플랫폼입니다.</p>
+  <div class="hero-actions">
+    <a href="dashboard.html" class="btn-primary">
+      <i class="ti ti-layout-dashboard"></i>
+      대시보드 시작하기
+    </a>
+    <a href="#apps" class="btn-secondary">
+      <i class="ti ti-apps"></i>
+      앱 둘러보기
+    </a>
   </div>
-  <div class="si" onclick="go('f3','처음 시작하기')">
-    <i class="ti ti-rocket"></i>처음 시작하기
-  </div>
-  <div class="slab">기록 보기</div>
-  <div class="si" onclick="toast('들어오고 나간 기록 화면으로 이동합니다.','tok')">
-    <i class="ti ti-list"></i>들어오고 나간 기록
-  </div>
-  <div class="slab">관리</div>
-  <div class="si" onclick="toast('앱 설정 화면으로 이동합니다.','tok')">
-    <i class="ti ti-settings"></i>앱 설정
-  </div>
-</aside>
+</div>
 
-<main class="main">
-
-<!-- ════════════════════════════════
-     FLOW 1 — 입고 확인
-════════════════════════════════ -->
-<div class="panel active" id="panel-f1">
-  <!-- 오프라인 배너 — 전 패널 동일 구조 -->
-  <div class="off-banner" id="ob1">
-    <i class="ti ti-wifi-off" style="flex-shrink:0"></i>
-    <div class="ob-r"><div class="ob-t">인터넷이 연결되지 않았어요.</div><div class="ob-s">지금 입력한 내용은 임시 저장됩니다. 연결되면 자동으로 올라가요.</div></div>
-    <button class="btn bs" style="font-size:11px;flex-shrink:0" onclick="toggleOffline()"><i class="ti ti-refresh"></i>다시 연결</button>
+<!-- STATS -->
+<div class="stats">
+  <div class="stat">
+    <div class="stat-num">5+</div>
+    <div class="stat-label">관리 모듈</div>
   </div>
+  <div class="stat">
+    <div class="stat-num">실시간</div>
+    <div class="stat-label">재고 현황</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">오프라인</div>
+    <div class="stat-label">지원</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">모바일</div>
+    <div class="stat-label">반응형</div>
+  </div>
+</div>
 
-  <div class="ph">
-    <div><h1>오늘 들어올 자재 확인</h1><p>3곳에서 자재가 들어올 예정이에요. 순서대로 확인해주세요.</p></div>
-    <!-- CTA 표준: 주요=우측, 보조=좌측 -->
-    <div style="display:flex;gap:var(--s1)">
-      <button class="btn bs"><i class="ti ti-refresh"></i>새로고침</button>
-      <button class="btn bp" onclick="simOk()"><i class="ti ti-barcode"></i>바코드 찍기</button>
-    </div>
+<!-- APPS -->
+<div class="section" id="apps">
+  <div class="section-header">
+    <h2>앱 & 도구</h2>
+    <div class="line"></div>
   </div>
 
-  <div class="pstrip">
-    <div class="ps done"><div class="pn"><i class="ti ti-check" style="font-size:11px"></i></div><span class="plabel">AAAAA 완료</span></div>
-    <div class="ps active"><div class="pn">2</div><span class="plabel">BBBBB 진행 중</span></div>
-    <div class="ps"><div class="pn">3</div><span class="plabel">CCCCC 대기 중</span></div>
-  </div>
+  <div class="apps-grid">
 
-  <div class="st">오늘 확인할 곳 — 3곳</div>
-  <div class="supgrid">
-    <div class="supc done">
-      <div class="sct"><div class="sci"><i class="ti ti-circle-check"></i></div><span class="chip chip-ok"><i class="ti ti-check" style="font-size:10px"></i>완료</span></div>
-      <div class="scname">AAAAA</div><div class="scdesc">SUS304 볼트 200개 · 고무오링 50개</div>
-      <div class="sctime"><i class="ti ti-clock" style="font-size:12px"></i>오전 10:24에 기록됨</div>
-    </div>
-    <div class="supc" onclick="focusScan()">
-      <div class="sct"><div class="sci"><i class="ti ti-truck"></i></div><span class="chip chip-act">지금 진행 중</span></div>
-      <div class="scname">BBBBB</div><div class="scdesc">알루미늄 판재 20개 · 구리선 30M</div>
-      <div style="margin-top:var(--s1)"><div class="sstat sstat-scan" style="font-size:11px"><div class="dotl"><span></span><span></span><span></span></div>스캔 대기 중…</div></div>
-    </div>
-    <div class="supc locked" id="card-ccc" onclick="shakeLockedCard()" style="cursor:not-allowed;pointer-events:auto">
-      <div class="sct"><div class="sci"><i class="ti ti-lock"></i></div><span class="chip chip-wait">아직 대기 중</span></div>
-      <div class="scname">CCCCC</div><div class="scdesc">유압호스 12M · SUS 너트 100개</div>
-      <div style="margin-top:var(--s1);font-size:12px;color:var(--text3)"><i class="ti ti-lock" style="font-size:11px;vertical-align:-1px;margin-right:3px"></i>BBBBB 먼저 완료해야 해요</div>
-    </div>
-  </div>
+    <a href="dashboard.html" class="app-card" style="--card-color:#4f8ef7">
+      <div class="card-icon"><i class="ti ti-layout-dashboard"></i></div>
+      <div class="card-title">공장 자재 관리</div>
+      <div class="card-desc">입고 확인, 재고 현황, 바코드 스캔을 통한 실시간 자재 관리 대시보드</div>
+      <div class="card-footer">
+        <span class="card-tag">핵심 앱</span>
+        <i class="ti ti-arrow-right card-arrow"></i>
+      </div>
+    </a>
 
-  <div class="st">BBBBB — 바코드로 자재 확인하기</div>
-  <div class="card">
-    <div class="card-head">
-      <h3>자재 바코드를 찍어주세요</h3>
-      <div style="display:flex;gap:var(--s1)">
-        <button class="btn bg" style="font-size:12px" onclick="simFail()"><i class="ti ti-x"></i>실패 시뮬</button>
-        <button class="btn bok" style="font-size:12px" onclick="simOk()"><i class="ti ti-scan"></i>성공 시뮬</button>
+    <a href="dashboard.html#f1" class="app-card" style="--card-color:#6ee7b7">
+      <div class="card-icon" style="background:rgba(110,231,183,0.12)"><i class="ti ti-barcode"></i></div>
+      <div class="card-title">입고 확인</div>
+      <div class="card-desc">바코드 스캔으로 입고 자재를 빠르게 확인하고 등록합니다.</div>
+      <div class="card-footer">
+        <span class="card-tag new">실시간</span>
+        <i class="ti ti-arrow-right card-arrow"></i>
+      </div>
+    </a>
+
+    <a href="dashboard.html#f2" class="app-card" style="--card-color:#a78bfa">
+      <div class="card-icon" style="background:rgba(167,139,250,0.12)"><i class="ti ti-box"></i></div>
+      <div class="card-title">재고 현황</div>
+      <div class="card-desc">전체 자재의 현재 재고량과 위치를 한눈에 파악합니다.</div>
+      <div class="card-footer">
+        <span class="card-tag" style="background:rgba(167,139,250,0.12);color:#a78bfa">모니터링</span>
+        <i class="ti ti-arrow-right card-arrow"></i>
+      </div>
+    </a>
+
+    <a href="dashboard.html#f3" class="app-card" style="--card-color:#fbbf24">
+      <div class="card-icon" style="background:rgba(251,191,36,0.12)"><i class="ti ti-rocket"></i></div>
+      <div class="card-title">처음 시작하기</div>
+      <div class="card-desc">SmartPD Eco 초기 설정과 사용법을 단계별로 안내합니다.</div>
+      <div class="card-footer">
+        <span class="card-tag beta">가이드</span>
+        <i class="ti ti-arrow-right card-arrow"></i>
+      </div>
+    </a>
+
+    <a href="dashboard.html" class="app-card" style="--card-color:#f87171">
+      <div class="card-icon" style="background:rgba(248,113,113,0.12)"><i class="ti ti-list"></i></div>
+      <div class="card-title">입출고 기록</div>
+      <div class="card-desc">들어오고 나간 자재의 전체 이력을 조회하고 분석합니다.</div>
+      <div class="card-footer">
+        <span class="card-tag" style="background:rgba(248,113,113,0.12);color:#f87171">기록</span>
+        <i class="ti ti-arrow-right card-arrow"></i>
+      </div>
+    </a>
+
+    <a href="dashboard.html" class="app-card" style="--card-color:#34d399">
+      <div class="card-icon" style="background:rgba(52,211,153,0.12)"><i class="ti ti-settings"></i></div>
+      <div class="card-title">앱 설정</div>
+      <div class="card-desc">알림, 사용자, 권한 등 앱 전반의 설정을 관리합니다.</div>
+      <div class="card-footer">
+        <span class="card-tag" style="background:rgba(52,211,153,0.12);color:#34d399">설정</span>
+        <i class="ti ti-arrow-right card-arrow"></i>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<!-- FEATURES -->
+<div class="section" id="features">
+  <div class="section-header">
+    <h2>주요 기능</h2>
+    <div class="line"></div>
+  </div>
+  <div class="features-grid">
+    <div class="feat-item">
+      <i class="ti ti-wifi-off feat-icon"></i>
+      <div>
+        <div class="feat-title">오프라인 지원</div>
+        <div class="feat-desc">인터넷 없이도 기본 기능 사용 가능</div>
       </div>
     </div>
-    <div class="card-body" style="display:grid;grid-template-columns:1fr 1fr;gap:0;padding:0">
-      <div style="padding:var(--s3);border-right:1px solid var(--bd)">
-        <div class="scan-area scanning" id="sa">
-          <div class="scan-exit" onclick="exitScan()" title="스캔 중단"><i class="ti ti-x"></i></div>
-          <i class="sa-icon ti ti-scan" id="sa-ic"></i>
-          <div class="sa-title" id="sa-title">카메라로 바코드를 찍어주세요.</div>
-          <div class="sa-sub" id="sa-sub">여기를 누르면 카메라가 켜져요</div>
-          <div class="scan-timer" id="sa-timer"></div>
-        </div>
-        <div class="sstat sstat-scan" id="sa-stat"><div class="dotl"><span></span><span></span><span></span></div><span id="sa-stxt">찾는 중…</span></div>
-        <div class="alt-cta" id="alt-cta">
-          <p>바코드를 못 찾았어요. 이름으로 직접 검색해볼까요?</p>
-          <button class="btn bs" style="width:100%;justify-content:center" onclick="toast('직접 입력 화면으로 이동합니다.','tok')"><i class="ti ti-keyboard"></i>이름으로 직접 입력하기</button>
-        </div>
+    <div class="feat-item">
+      <i class="ti ti-device-mobile feat-icon"></i>
+      <div>
+        <div class="feat-title">모바일 반응형</div>
+        <div class="feat-desc">스마트폰, 태블릿 최적화</div>
       </div>
-      <div style="padding:var(--s3)">
-        <div class="st">찾은 자재 정보</div>
-        <div class="icard" id="icard">
-          <div class="icr"><span class="ick">자재 이름</span><span class="icv" id="ic-name">—</span></div>
-          <div class="icr"><span class="ick">지금 재고</span><span class="icv" id="ic-stock">—</span></div>
-          <div class="icr"><span class="ick">확인 시각</span><span class="icv" id="ic-time">—</span></div>
-        </div>
-        <!-- ★ v5 Error Prevention: 수량 입력 필드 — 스캔 성공 후 노출, 기본값 1 -->
-        <div class="qty-input-row" id="qty-row">
-          <span class="qi-label"><i class="ti ti-package" style="font-size:15px;margin-right:4px"></i>지금 들어온 수량</span>
-          <div class="qty-stepper">
-            <button class="qs-btn" id="qty-minus" onclick="changeQty(-1)" disabled>−</button>
-            <span class="qs-val" id="qty-val">1</span>
-            <button class="qs-btn" onclick="changeQty(1)">+</button>
-          </div>
-          <span class="qty-unit" id="qty-unit">EA</span>
-          <span style="font-size:11px;color:var(--acc-t);margin-left:auto">1 이상 입력 필수</span>
-        </div>
-        <!-- CTA: 수량 ≥ 1이어야 저장 버튼 활성 -->
-        <div class="cta-row" id="scan-cta" style="display:none">
-          <div class="cta-left">
-            <button class="btn bg" onclick="exitScan()"><i class="ti ti-x"></i>취소</button>
-          </div>
-          <div class="cta-right">
-            <button class="btn bok" id="cfbtn" onclick="confirmIncoming()"><i class="ti ti-check"></i>맞아요, 입고 기록할게요</button>
-          </div>
-        </div>
+    </div>
+    <div class="feat-item">
+      <i class="ti ti-scan feat-icon"></i>
+      <div>
+        <div class="feat-title">바코드 스캔</div>
+        <div class="feat-desc">카메라로 자재 코드 즉시 인식</div>
+      </div>
+    </div>
+    <div class="feat-item">
+      <i class="ti ti-bell feat-icon"></i>
+      <div>
+        <div class="feat-title">실시간 알림</div>
+        <div class="feat-desc">재고 부족 및 이상 즉시 알림</div>
+      </div>
+    </div>
+    <div class="feat-item">
+      <i class="ti ti-chart-bar feat-icon"></i>
+      <div>
+        <div class="feat-title">통계 & 분석</div>
+        <div class="feat-desc">입출고 패턴 시각화</div>
+      </div>
+    </div>
+    <div class="feat-item">
+      <i class="ti ti-shield-check feat-icon"></i>
+      <div>
+        <div class="feat-title">권한 관리</div>
+        <div class="feat-desc">역할별 접근 권한 설정</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ════════════════════════════════
-     FLOW 2 — 재고 현황
-════════════════════════════════ -->
-<div class="panel" id="panel-f2">
-  <div class="off-banner" id="ob2">
-    <i class="ti ti-wifi-off" style="flex-shrink:0"></i>
-    <div class="ob-r"><div class="ob-t">인터넷이 연결되지 않았어요.</div><div class="ob-s">마지막으로 불러온 재고를 보여드리고 있어요.</div></div>
-    <button class="btn bs" style="font-size:11px;flex-shrink:0" onclick="toggleOffline()"><i class="ti ti-refresh"></i>다시 연결</button>
-  </div>
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 SmartPD Eco &nbsp;·&nbsp;
+  <a href="https://github.com/smartpd-eco/smartpd-eco" target="_blank">GitHub</a>
+  &nbsp;·&nbsp; 스마트 공장 관리 플랫폼</p>
+</footer>
 
-  <div class="ph">
-    <div><h1>지금 창고에 뭐가 있나요</h1><p>자재별로 얼마나 남았는지 확인하세요. 빨간 항목은 지금 주문해야 해요.</p></div>
-    <div style="display:flex;gap:var(--s1)">
-      <button class="btn bs" onclick="toast('엑셀 파일로 저장됩니다.','tok')"><i class="ti ti-download"></i>엑셀로 저장하기</button>
-      <button class="btn bp"><i class="ti ti-plus"></i>자재 추가하기</button>
-    </div>
-  </div>
-
-  <div class="stats">
-    <div class="sc"><div class="slb"><i class="ti ti-box"></i>전체 자재 수</div><div class="sv">24</div><div class="ss">등록된 자재</div></div>
-    <div class="sc"><div class="slb"><i class="ti ti-circle-check"></i>넉넉한 자재</div><div class="sv" style="color:var(--ok)">22</div><div class="ss">주문 안 해도 돼요</div></div>
-    <div class="sc"><div class="slb"><i class="ti ti-alert-triangle"></i>조금 부족해요</div><div class="sv" style="color:var(--warn)">1</div><div class="ss">곧 주문 필요</div></div>
-    <div class="sc"><div class="slb"><i class="ti ti-alert-circle"></i>지금 당장 주문!</div><div class="sv" style="color:var(--dan)">1</div><div class="ss">지금 주문하세요</div></div>
-  </div>
-
-  <div class="st">자재별 재고 현황 — 행을 클릭하면 수량을 바로 수정할 수 있어요</div>
-  <div class="tbl-wrap">
-    <div class="tbl-head">
-      <h3 id="tcount">전체 24개 자재</h3>
-      <div class="sw"><i class="ti ti-search"></i><input type="text" placeholder="자재 이름 검색" oninput="filterTbl(this.value)"></div>
-    </div>
-    <div id="tbl-empty" style="display:none">
-      <!-- 빈 화면 표준: 아이콘+제목+설명+버튼 -->
-      <div class="empty">
-        <i class="ti ti-search-off"></i>
-        <h4 id="empty-msg">검색 결과가 없어요.</h4>
-        <p id="empty-sub">자재 이름이 정확한지 확인해보세요.</p>
-        <button class="btn bs" onclick="resetSearch()"><i class="ti ti-x"></i>검색 지우기</button>
-      </div>
-    </div>
-    <table id="stbl">
-      <thead><tr><th>자재 이름</th><th>지금 재고</th><th>최소 보유량</th><th>남은 비율</th><th>상태</th><th>보관 위치</th><th style="width:120px">관리</th></tr></thead>
-      <tbody id="stbody">
-        <!-- 유압호스 -->
-        <tr class="data-row" data-id="hyd" data-name="유압호스" data-qty="18" data-unit="M" onclick="toggleIE(this)">
-          <td><div class="iname">유압호스 1/2"</div><div class="icode">내부 코드: HH-12</div></td>
-          <td class="stock-cell">18 M</td><td>30 M</td>
-          <td><div class="bw"><div class="bt"><div class="bf bf-dan" style="width:60%"></div></div><span class="pct pct-dan">60%</span></div></td>
-          <td><span class="chip chip-dan"><i class="ti ti-alert-circle" style="font-size:11px"></i>지금 주문하세요</span></td>
-          <td style="color:var(--text3)">C창고 1-4</td>
-          <td><span style="font-size:11px;color:var(--text3);display:flex;align-items:center;gap:3px"><i class="ti ti-pencil" style="font-size:12px"></i>클릭해서 수정</span></td>
-        </tr>
-        <tr class="ie-row" id="ie-hyd"><td colspan="7"><div class="ie-inner"><div class="ie-left"><span class="ie-label" style="margin-right:var(--s1)"><i class="ti ti-pencil"></i>수량 수정</span><div class="stepper"><button class="step-btn" id="hyd-minus" onclick="stepQ('hyd',-1)">−</button><span class="step-val" id="q-hyd">18</span><button class="step-btn" onclick="stepQ('hyd',1)">+</button></div><span class="ie-unit" style="margin-left:4px">M</span></div><div class="ie-right"><button class="btn bg btn-del-sm" title="되돌릴 수 없어요" onclick="showDC('hyd')"><i class="ti ti-trash"></i>삭제</button><span style="width:1px;height:20px;background:var(--bd2);display:inline-block;margin:0 4px"></span><button class="btn bg" style="font-size:11px" onclick="hideRow('hyd')"><i class="ti ti-eye-off"></i>목록에서 숨기기</button><button class="btn bg" style="font-size:11px" onclick="closeIE('hyd')"><i class="ti ti-x"></i>닫기</button><button class="btn bok" style="font-size:11px" id="save-hyd" onclick="saveIE('hyd')"><i class="ti ti-check"></i>저장하기</button></div></div><div class="del-confirm" id="dc-hyd"><p><i class="ti ti-alert-triangle" style="font-size:14px;vertical-align:-2px;margin-right:4px"></i>정말 삭제할까요? 삭제하면 되돌릴 수 없어요.</p><div style="display:flex;gap:var(--s1)"><button class="btn bg" onclick="hideDC('hyd')"><i class="ti ti-x"></i>취소할게요</button><button class="btn bdan" onclick="delRow('hyd')"><i class="ti ti-trash"></i>네, 완전히 지울게요</button></div></div></td></tr>
-        <!-- 알루미늄 -->
-        <tr class="data-row" data-id="alu" data-name="알루미늄" data-qty="45" data-unit="EA" onclick="toggleIE(this)">
-          <td><div class="iname">알루미늄 판재 2T</div><div class="icode">내부 코드: AL-P-2T</div></td>
-          <td class="stock-cell">45 EA</td><td>50 EA</td>
-          <td><div class="bw"><div class="bt"><div class="bf bf-warn" style="width:90%"></div></div><span class="pct pct-warn">90%</span></div></td>
-          <td><span class="chip chip-warn"><i class="ti ti-alert-triangle" style="font-size:11px"></i>곧 주문 필요</span></td>
-          <td style="color:var(--text3)">B창고 2-3</td>
-          <td><span style="font-size:11px;color:var(--text3);display:flex;align-items:center;gap:3px"><i class="ti ti-pencil" style="font-size:12px"></i>클릭해서 수정</span></td>
-        </tr>
-        <tr class="ie-row" id="ie-alu"><td colspan="7"><div class="ie-inner"><div class="ie-left"><span class="ie-label" style="margin-right:var(--s1)"><i class="ti ti-pencil"></i>수량 수정</span><div class="stepper"><button class="step-btn" id="alu-minus" onclick="stepQ('alu',-1)">−</button><span class="step-val" id="q-alu">45</span><button class="step-btn" onclick="stepQ('alu',1)">+</button></div><span class="ie-unit" style="margin-left:4px">EA</span></div><div class="ie-right"><button class="btn bg btn-del-sm" title="되돌릴 수 없어요" onclick="showDC('alu')"><i class="ti ti-trash"></i>삭제</button><span style="width:1px;height:20px;background:var(--bd2);display:inline-block;margin:0 4px"></span><button class="btn bg" style="font-size:11px" onclick="hideRow('alu')"><i class="ti ti-eye-off"></i>목록에서 숨기기</button><button class="btn bg" style="font-size:11px" onclick="closeIE('alu')"><i class="ti ti-x"></i>닫기</button><button class="btn bok" style="font-size:11px" id="save-alu" onclick="saveIE('alu')"><i class="ti ti-check"></i>저장하기</button></div></div><div class="del-confirm" id="dc-alu"><p><i class="ti ti-alert-triangle" style="font-size:14px;vertical-align:-2px;margin-right:4px"></i>정말 삭제할까요?</p><div style="display:flex;gap:var(--s1)"><button class="btn bg" onclick="hideDC('alu')"><i class="ti ti-x"></i>취소할게요</button><button class="btn bdan" onclick="delRow('alu')"><i class="ti ti-trash"></i>네, 완전히 지울게요</button></div></div></td></tr>
-        <!-- 나머지 3행 — 동일 패턴 -->
-        <tr class="data-row" data-id="bolt" data-name="SUS304 볼트" data-qty="340" data-unit="EA" onclick="toggleIE(this)"><td><div class="iname">SUS304 볼트 M8</div><div class="icode">내부 코드: B-M8-SS</div></td><td class="stock-cell">340 EA</td><td>100 EA</td><td><div class="bw"><div class="bt"><div class="bf bf-ok" style="width:100%"></div></div><span class="pct pct-ok">340%</span></div></td><td><span class="chip chip-ok"><i class="ti ti-check" style="font-size:11px"></i>넉넉해요</span></td><td style="color:var(--text3)">A창고 1-1</td><td><span style="font-size:11px;color:var(--text3);display:flex;align-items:center;gap:3px"><i class="ti ti-pencil" style="font-size:12px"></i>클릭해서 수정</span></td></tr>
-        <tr class="ie-row" id="ie-bolt"><td colspan="7"><div class="ie-inner"><div class="ie-left"><span class="ie-label" style="margin-right:var(--s1)"><i class="ti ti-pencil"></i>수량 수정</span><div class="stepper"><button class="step-btn" onclick="stepQ('bolt',-1)">−</button><span class="step-val" id="q-bolt">340</span><button class="step-btn" onclick="stepQ('bolt',1)">+</button></div><span class="ie-unit" style="margin-left:4px">EA</span></div><div class="ie-right"><button class="btn bg btn-del-sm" title="되돌릴 수 없어요" onclick="showDC('bolt')"><i class="ti ti-trash"></i>삭제</button><span style="width:1px;height:20px;background:var(--bd2);display:inline-block;margin:0 4px"></span><button class="btn bg" style="font-size:11px" onclick="hideRow('bolt')"><i class="ti ti-eye-off"></i>숨기기</button><button class="btn bg" style="font-size:11px" onclick="closeIE('bolt')"><i class="ti ti-x"></i>닫기</button><button class="btn bok" style="font-size:11px" onclick="saveIE('bolt')"><i class="ti ti-check"></i>저장하기</button></div></div><div class="del-confirm" id="dc-bolt"><p><i class="ti ti-alert-triangle" style="font-size:14px;vertical-align:-2px;margin-right:4px"></i>정말 삭제할까요?</p><div style="display:flex;gap:var(--s1)"><button class="btn bg" onclick="hideDC('bolt')"><i class="ti ti-x"></i>취소할게요</button><button class="btn bdan" onclick="delRow('bolt')"><i class="ti ti-trash"></i>네, 완전히 지울게요</button></div></div></td></tr>
-        <tr class="data-row" data-id="wire" data-name="구리선" data-qty="250" data-unit="M" onclick="toggleIE(this)"><td><div class="iname">구리선 AWG14</div><div class="icode">내부 코드: CU-14</div></td><td class="stock-cell">250 M</td><td>100 M</td><td><div class="bw"><div class="bt"><div class="bf bf-ok" style="width:100%"></div></div><span class="pct pct-ok">250%</span></div></td><td><span class="chip chip-ok"><i class="ti ti-check" style="font-size:11px"></i>넉넉해요</span></td><td style="color:var(--text3)">B창고 4-1</td><td><span style="font-size:11px;color:var(--text3);display:flex;align-items:center;gap:3px"><i class="ti ti-pencil" style="font-size:12px"></i>클릭해서 수정</span></td></tr>
-        <tr class="ie-row" id="ie-wire"><td colspan="7"><div class="ie-inner"><div class="ie-left"><span class="ie-label" style="margin-right:var(--s1)"><i class="ti ti-pencil"></i>수량 수정</span><div class="stepper"><button class="step-btn" onclick="stepQ('wire',-1)">−</button><span class="step-val" id="q-wire">250</span><button class="step-btn" onclick="stepQ('wire',1)">+</button></div><span class="ie-unit" style="margin-left:4px">M</span></div><div class="ie-right"><button class="btn bg btn-del-sm" title="되돌릴 수 없어요" onclick="showDC('wire')"><i class="ti ti-trash"></i>삭제</button><span style="width:1px;height:20px;background:var(--bd2);display:inline-block;margin:0 4px"></span><button class="btn bg" style="font-size:11px" onclick="hideRow('wire')"><i class="ti ti-eye-off"></i>숨기기</button><button class="btn bg" style="font-size:11px" onclick="closeIE('wire')"><i class="ti ti-x"></i>닫기</button><button class="btn bok" style="font-size:11px" onclick="saveIE('wire')"><i class="ti ti-check"></i>저장하기</button></div></div><div class="del-confirm" id="dc-wire"><p><i class="ti ti-alert-triangle" style="font-size:14px;vertical-align:-2px;margin-right:4px"></i>정말 삭제할까요?</p><div style="display:flex;gap:var(--s1)"><button class="btn bg" onclick="hideDC('wire')"><i class="ti ti-x"></i>취소할게요</button><button class="btn bdan" onclick="delRow('wire')"><i class="ti ti-trash"></i>네, 완전히 지울게요</button></div></div></td></tr>
-        <tr class="data-row" data-id="oring" data-name="고무 오링" data-qty="820" data-unit="EA" onclick="toggleIE(this)"><td><div class="iname">고무 오링 Φ30</div><div class="icode">내부 코드: OR-30</div></td><td class="stock-cell">820 EA</td><td>200 EA</td><td><div class="bw"><div class="bt"><div class="bf bf-ok" style="width:100%"></div></div><span class="pct pct-ok">410%</span></div></td><td><span class="chip chip-ok"><i class="ti ti-check" style="font-size:11px"></i>넉넉해요</span></td><td style="color:var(--text3)">A창고 3-2</td><td><span style="font-size:11px;color:var(--text3);display:flex;align-items:center;gap:3px"><i class="ti ti-pencil" style="font-size:12px"></i>클릭해서 수정</span></td></tr>
-        <tr class="ie-row" id="ie-oring"><td colspan="7"><div class="ie-inner"><div class="ie-left"><span class="ie-label" style="margin-right:var(--s1)"><i class="ti ti-pencil"></i>수량 수정</span><div class="stepper"><button class="step-btn" onclick="stepQ('oring',-1)">−</button><span class="step-val" id="q-oring">820</span><button class="step-btn" onclick="stepQ('oring',1)">+</button></div><span class="ie-unit" style="margin-left:4px">EA</span></div><div class="ie-right"><button class="btn bg btn-del-sm" title="되돌릴 수 없어요" onclick="showDC('oring')"><i class="ti ti-trash"></i>삭제</button><span style="width:1px;height:20px;background:var(--bd2);display:inline-block;margin:0 4px"></span><button class="btn bg" style="font-size:11px" onclick="hideRow('oring')"><i class="ti ti-eye-off"></i>숨기기</button><button class="btn bg" style="font-size:11px" onclick="closeIE('oring')"><i class="ti ti-x"></i>닫기</button><button class="btn bok" style="font-size:11px" onclick="saveIE('oring')"><i class="ti ti-check"></i>저장하기</button></div></div><div class="del-confirm" id="dc-oring"><p><i class="ti ti-alert-triangle" style="font-size:14px;vertical-align:-2px;margin-right:4px"></i>정말 삭제할까요?</p><div style="display:flex;gap:var(--s1)"><button class="btn bg" onclick="hideDC('oring')"><i class="ti ti-x"></i>취소할게요</button><button class="btn bdan" onclick="delRow('oring')"><i class="ti ti-trash"></i>네, 완전히 지울게요</button></div></div></td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- 주문 메모 패널 -->
-  <div class="dp" id="dpanel">
-    <div class="dp-head"><h3 id="dp-title">유압호스 1/2" — 지금 당장 주문해야 해요</h3><button class="btn bg" onclick="closeDP()"><i class="ti ti-x"></i></button></div>
-    <div class="dp-body">
-      <div class="dp-sec"><div class="dp-st">지금 재고 상황</div><div class="dp-r"><span class="dp-k">지금 있는 양</span><span class="dp-v" style="color:var(--dan)">18 M</span></div><div class="dp-r"><span class="dp-k">최소 있어야 할 양</span><span class="dp-v">30 M</span></div><div class="dp-r"><span class="dp-k">부족한 양</span><span class="dp-v" style="color:var(--dan)">12 M 모자라요</span></div></div>
-      <div class="dp-sec"><div class="dp-st">공급업체 정보</div><div class="dp-r"><span class="dp-k">업체 이름</span><span class="dp-v">유압산업(주)</span></div><div class="dp-r"><span class="dp-k">보통 배송 기간</span><span class="dp-v">3일</span></div><div class="dp-r"><span class="dp-k">마지막 주문일</span><span class="dp-v">2025.04.10</span></div></div>
-      <div class="dp-sec">
-        <div class="dp-st">주문 메모</div>
-        <textarea id="omemo" class="required-empty" oninput="onMemoInput(this)" placeholder="주문할 수량과 특이사항을 적어주세요 (필수)…">유압호스 1/2" × 30M 주문 요청&#10;3일 이내 납품 부탁드립니다</textarea>
-        <div class="memo-hint" id="memo-hint">메모를 입력해야 저장할 수 있어요.</div>
-        <!-- CTA 표준: 보조 좌측 ghost, 주요 우측 색상 -->
-        <div class="cta-row">
-          <div class="cta-left">
-            <button class="btn bg" onclick="showMemoDC()"><i class="ti ti-trash"></i>삭제</button>
-          </div>
-          <div class="cta-right">
-            <div class="memo-act" id="memo-act">
-              <button class="btn bs" onclick="editMemo()"><i class="ti ti-pencil"></i>수정하기</button>
-            </div>
-            <button class="btn bdan" id="smemo-btn" onclick="saveMemo()"><i class="ti ti-pencil"></i>주문 메모 저장하기</button>
-          </div>
-        </div>
-        <div class="del-confirm" id="memo-dc">
-          <p><i class="ti ti-alert-triangle" style="font-size:14px;vertical-align:-2px;margin-right:4px"></i>주문 메모를 삭제할까요?</p>
-          <div style="display:flex;gap:var(--s1)"><button class="btn bg" onclick="hideMemoDC()"><i class="ti ti-x"></i>취소할게요</button><button class="btn bdan" onclick="deleteMemo()"><i class="ti ti-trash"></i>네, 지울게요</button></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ════════════════════════════════
-     FLOW 3 — 처음 시작하기
-════════════════════════════════ -->
-<div class="panel" id="panel-f3">
-  <div class="ph"><div><h1>처음 시작하기</h1><p>딱 3단계예요. 5분이면 충분해요.</p></div></div>
-  <div class="obwrap">
-    <div class="obsteps">
-      <div class="obs done" id="ob-s1"><div class="obn"><i class="ti ti-check" style="font-size:11px"></i></div><span>자재 등록</span></div>
-      <div class="obline"></div>
-      <div class="obs active" id="ob-s2"><div class="obn">2</div><span>바코드 연결</span></div>
-      <div class="obline"></div>
-      <div class="obs" id="ob-s3"><div class="obn">3</div><span>첫 번째 입고</span></div>
-    </div>
-    <div id="step1" style="display:none">
-      <div class="card">
-        <div class="obhead"><h2>어떤 자재를 관리하실 건가요?</h2><p>이름이랑 지금 갖고 있는 수량만 적으면 돼요.</p></div>
-        <div class="obbody">
-          <div class="saved-notice" id="saved-n"><i class="ti ti-device-floppy" style="font-size:14px;flex-shrink:0"></i>이전에 입력한 내용이 저장돼 있어요.</div>
-          <div class="fg"><label class="fl">자재 이름 <span style="color:var(--dan)">*</span></label><input type="text" class="fi" id="ob-nm" placeholder="예: SUS304 볼트 M8" value="SUS304 볼트 M8" oninput="onObNameInput(this)"><div class="errmsg" id="ob-nerr"><i class="ti ti-alert-circle" style="font-size:12px"></i>자재 이름 칸이 비어 있어요.</div></div>
-          <div class="fg"><label class="fl">지금 갖고 있는 수량 <span style="color:var(--dan)">*</span></label><input type="number" class="fi" placeholder="0" value="340"></div>
-          <div class="fg"><label class="fl">단위</label><input type="text" class="fi" placeholder="개 / M / KG / 박스" value="EA"></div>
-          <button class="later-btn" onclick="toggleLater()"><i class="ti ti-chevron-down" id="later-ic"></i>나머지는 나중에 입력해도 돼요</button>
-          <div class="laterf" id="laterf">
-            <div class="fg"><label class="fl">바코드 번호</label><input type="text" class="fi" placeholder="MAT-2024-00101"></div>
-            <div class="fg"><label class="fl">최소 보유량</label><input type="number" class="fi" placeholder="100"></div>
-            <div class="fg"><label class="fl">보관 위치</label><input type="text" class="fi" placeholder="A창고 1-1번 선반"></div>
-          </div>
-          <!-- CTA 표준 — 전 온보딩 동일 -->
-          <div class="cta-row">
-            <div class="cta-left"><button class="btn bg" onclick="go('f1','입고 확인')"><i class="ti ti-x"></i>나중에 할게요</button></div>
-            <div class="cta-right"><button class="btn bp" id="ob-next-btn" onclick="obGo(2)"><i class="ti ti-arrow-right"></i>다음으로</button></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div id="step2">
-      <div class="card">
-        <div class="obhead"><h2>자재 바코드를 찍어볼게요</h2><p>바코드를 연결하면 앞으로 1초 만에 입고·출고 처리가 돼요.</p></div>
-        <div class="obbody">
-          <div class="obscan" id="ob-sa" onclick="obScan()"><i class="ti ti-scan" id="ob-saic"></i><div class="osbt" id="ob-satitle">여기를 눌러서 바코드를 찍어주세요</div><div class="osbs" id="ob-sasub">카메라가 켜집니다</div></div>
-          <div class="sstat sstat-idle" id="ob-sastat"><i class="ti ti-info-circle"></i><span>준비됐어요. 위 버튼을 눌러주세요.</span></div>
-          <div class="cfcard" id="ob-cf">
-            <h4>이 자재를 찾았어요.</h4><p>MAT-2024-00101 · SUS304 볼트 M8</p>
-            <div style="display:flex;gap:var(--s1);margin-top:var(--s2)">
-              <button class="btn bg" onclick="obRetry()"><i class="ti ti-refresh"></i>다시 찍기</button>
-              <button class="btn bok" style="flex:1;justify-content:center" onclick="obGo(3)"><i class="ti ti-check"></i>맞아요, 연결할게요</button>
-            </div>
-          </div>
-          <div class="skipn" id="skipn"><i class="ti ti-alert-triangle" style="font-size:13px"></i>바코드를 연결하지 않았어요. 나중에 설정에서 추가할 수 있어요.</div>
-          <!-- CTA 표준 — 보조 좌측, 주요 우측 -->
-          <div class="cta-row">
-            <div class="cta-left">
-              <button class="btn bg" onclick="obSkip()"><i class="ti ti-forward-skip"></i>나중에 할게요</button>
-              <button class="btn bg" onclick="obBack()"><i class="ti ti-arrow-left"></i>이전 (내용 유지)</button>
-            </div>
-            <div class="cta-right"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div id="step3" style="display:none">
-      <div class="card">
-        <div class="obhead"><h2 style="color:var(--ok)">다 됐어요!</h2><p>첫 번째 자재가 등록됐습니다.</p></div>
-        <div class="obbody">
-          <div class="succard"><i class="ti ti-circle-check"></i><div><h4>SUS304 볼트 M8 — 등록 완료</h4><p>재고 341개 기록됨 · 오전 9:05</p></div></div>
-          <div class="icard"><div class="icr"><span class="ick">자재 이름</span><span class="icv">SUS304 볼트 M8</span></div><div class="icr"><span class="ick">지금 재고</span><span class="icv" style="color:var(--ok)">341 EA ↑</span></div><div class="icr"><span class="ick">바코드</span><span class="icv" id="ob-bcr">MAT-2024-00101</span></div></div>
-          <!-- CTA 표준 -->
-          <div class="cta-row">
-            <div class="cta-left"><button class="btn bg" onclick="obGo(1)"><i class="ti ti-plus"></i>자재 더 추가하기</button></div>
-            <div class="cta-right"><button class="btn bp" onclick="go('f1','입고 확인')"><i class="ti ti-home"></i>시작 화면으로 가기</button></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-</main>
-</div>
-
-<!-- 카카오페이 취소 카운트다운 -->
-<div class="undo-toast" id="undo-t">
-  <div class="ut-top"><span class="ut-msg" id="ut-msg">BBBBB 입고가 기록됐어요.</span><button class="btn bg" style="font-size:11px;padding:2px 8px" onclick="dismissUndo()">닫기</button></div>
-  <div class="ut-bw"><div class="ut-track"><div class="ut-fill" id="ut-fill" style="width:100%"></div></div><button class="ut-cbtn" onclick="undoIncoming()"><i class="ti ti-arrow-back-up" style="font-size:13px"></i>취소 <span id="ut-secs">10</span>초</button></div>
-</div>
-<div class="tw" id="tw"></div>
-
-<script src="main.js"></script>
 </body>
 </html>
