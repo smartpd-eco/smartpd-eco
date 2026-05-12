@@ -317,12 +317,47 @@
   }
   footer a { color: var(--accent); text-decoration: none; }
 
-  @media (max-width: 600px) {
-    .stats { gap: 24px; }
-    .hero { padding: 50px 1rem 40px; }
-    .section { padding: 0 1rem 50px; }
+  /* 모바일 하단 고정 CTA */
+  .mobile-cta {
+    display: none;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    padding: 12px 1rem;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    background: rgba(15,17,23,0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(42,51,82,0.6);
+    z-index: 200;
+  }
+
+  @media (max-width: 768px) {
+    .mobile-cta { display: flex; }
+    body { padding-bottom: 72px; }
+  }
+
+  @media (max-width: 768px) {
     nav { padding: 0 1rem; }
     .nav-links { display: none; }
+    .hero { padding: 48px 1.25rem 36px; }
+    .hero h1 { font-size: clamp(24px, 7vw, 36px); }
+    .hero p { font-size: 14px; }
+    .stats { gap: 20px; flex-wrap: wrap; justify-content: center; }
+    .stat { min-width: 80px; }
+    .section { padding: 0 1rem 50px; }
+    .apps-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+    .features-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  }
+
+  @media (max-width: 480px) {
+    .hero { padding: 36px 1rem 28px; }
+    .hero-badge { font-size: 11px; }
+    .stats { gap: 16px; }
+    .stat-num { font-size: 22px; }
+    .apps-grid { grid-template-columns: 1fr; }
+    .features-grid { grid-template-columns: 1fr; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .btn-primary, .btn-secondary { justify-content: center; padding: 14px 20px; }
   }
 </style>
 </head>
@@ -504,6 +539,13 @@
       </div>
     </div>
   </div>
+</div>
+
+<!-- MOBILE BOTTOM NAV -->
+<div class="mobile-cta">
+  <a href="dashboard.html" class="btn-primary" style="flex:1;justify-content:center">
+    <i class="ti ti-layout-dashboard"></i>대시보드 열기
+  </a>
 </div>
 
 <!-- FOOTER -->
