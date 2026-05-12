@@ -3,68 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>사용 매뉴얼 및 시스템 로직</title>
+    <title>간편 매뉴얼</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css">
     <style>
-        .docs-container { max-width: 800px; margin: 0 auto; padding: var(--s4) var(--s2); }
-        .docs-section { margin-bottom: var(--s4); background: var(--bg2); border: 1px solid var(--bd); border-radius: var(--r3); padding: var(--s3); }
-        .docs-section h2 { font-size: 20px; color: var(--acc); margin-bottom: var(--s2); display: flex; align-items: center; gap: var(--s1); }
-        .docs-section h3 { font-size: 16px; color: var(--text); margin-top: var(--s2); margin-bottom: var(--s1); }
-        .docs-section p { color: var(--text2); line-height: 1.6; margin-bottom: var(--s1); }
-        .logic-flow { display: flex; flex-direction: column; gap: var(--s1); margin-top: var(--s2); }
-        .flow-item { display: flex; align-items: center; gap: var(--s2); background: var(--bg3); padding: var(--s2); border-radius: var(--r1); border-left: 3px solid var(--acc); }
-        .flow-num { font-weight: 700; color: var(--acc); font-size: 18px; }
+        body { height: auto; overflow-y: auto; display: block; }
+        .docs-container { max-width: 600px; margin: 0 auto; padding: var(--s4) var(--s2) var(--s4); }
+        .menu-guide { display: grid; gap: var(--s2); margin-top: var(--s3); }
+        .menu-item { background: var(--bg2); border: 1px solid var(--bd); border-radius: var(--r2); padding: var(--s2); display: flex; align-items: flex-start; gap: var(--s2); }
+        .menu-item i { font-size: 24px; color: var(--acc); background: var(--bg3); padding: 10px; border-radius: var(--r1); }
+        .menu-item h3 { font-size: 16px; margin-bottom: 4px; }
+        .menu-item p { font-size: 13px; color: var(--text2); line-height: 1.4; }
         .back-btn { margin-bottom: var(--s3); }
+        .logic-tag { display: inline-block; font-size: 11px; background: var(--bg4); padding: 2px 6px; border-radius: 4px; margin-top: 8px; color: var(--text3); }
     </style>
 </head>
 <body>
     <div class="docs-container">
-        <button class="btn bs back-btn" onclick="location.href='index.html'"><i class="ti ti-arrow-left"></i> 대시보드로 돌아가기</button>
+        <button class="btn bs back-btn" onclick="location.href='dashboard.html'"><i class="ti ti-arrow-left"></i> 대시보드로 돌아가기</button>
         
         <div class="ph">
-            <h1>사용 매뉴얼 & 시스템 로직</h1>
-            <p>공장 자재 관리 시스템 v5를 효율적으로 사용하는 방법</p>
+            <h1>시스템 간편 매뉴얼</h1>
+            <p>메뉴별 핵심 기능과 동작 로직 안내</p>
         </div>
 
-        <section class="docs-section">
-            <h2><i class="ti ti-book"></i> 사용 매뉴얼</h2>
-            <h3>1. 자재 입고 (BBBBB)</h3>
-            <p>메인 화면의 '입고 확인' 패널에서 카메라 스캔을 통해 자재를 찾습니다. 자재가 인식되면 수량을 입력하고 '입고 기록' 버튼을 누르세요. 실수로 입력한 경우 하단에 나타나는 '취소' 버튼을 10초 이내에 클릭하여 되돌릴 수 있습니다.</p>
-            
-            <h3>2. 재고 현황 및 수정</h3>
-            <p>'재고 현황' 메뉴에서는 전체 자재 목록을 볼 수 있습니다. 각 행을 클릭하면 인라인 수정 모드가 활성화되어 즉시 수량을 조정하거나 자재를 삭제할 수 있습니다.</p>
-            
-            <h3>3. 처음 시작하기 (온보딩)</h3>
-            <p>새로운 자재를 등록할 때는 3단계 프로세스를 따릅니다. 자재 정보 입력 -> 바코드 스캔 -> 첫 입고 완료 순으로 진행됩니다.</p>
-        </section>
-
-        <section class="docs-section">
-            <h2><i class="ti ti-cpu"></i> 핵심 시스템 로직</h2>
-            <div class="logic-flow">
-                <div class="flow-item">
-                    <span class="flow-num">01</span>
-                    <div>
-                        <strong>실시간 상태 연산:</strong>
-                        <p>재고 수량이 최소 보유량의 60% 미만이면 '위험(Red)', 90% 미만이면 '주의(Yellow)' 상태로 자동 전환됩니다.</p>
-                    </div>
-                </div>
-                <div class="flow-item" style="border-left-color: var(--ok);">
-                    <span class="flow-num">02</span>
-                    <div>
-                        <strong>낙관적 UI 업데이트:</strong>
-                        <p>사용자가 저장을 누르는 즉시 화면에 반영(Optimistic Update)하고, 백엔드 통신 실패 시에만 에러 토스트를 띄웁니다.</p>
-                    </div>
-                </div>
-                <div class="flow-item" style="border-left-color: var(--warn);">
-                    <span class="flow-num">03</span>
-                    <div>
-                        <strong>오프라인 우선 모드:</strong>
-                        <p>인터넷 연결이 끊기면 로컬 스토리지에 데이터를 임시 저장하며, 재연결 시 자동으로 동기화를 시도합니다.</p>
-                    </div>
+        <div class="menu-guide">
+            <div class="menu-item">
+                <i class="ti ti-barcode"></i>
+                <div>
+                    <h3>입고 확인 (Scan)</h3>
+                    <p>바코드를 스캔하여 자재를 즉시 확인하고 수량을 기록합니다.</p>
+                    <span class="logic-tag">로직: 10초 내 취소 가능 (Undo)</span>
                 </div>
             </div>
-        </section>
+
+            <div class="menu-item">
+                <i class="ti ti-box"></i>
+                <div>
+                    <h3>재고 현황 (Inventory)</h3>
+                    <p>현재 보유량과 위치를 확인하고, 클릭하여 수량을 바로 수정합니다.</p>
+                    <span class="logic-tag">로직: 부족 시 자동 알림 (Red/Yellow)</span>
+                </div>
+            </div>
+
+            <div class="menu-item">
+                <i class="ti ti-rocket"></i>
+                <div>
+                    <h3>처음 시작하기 (Setup)</h3>
+                    <p>신규 자재 등록부터 바코드 연결까지 3단계로 초기 설정을 진행합니다.</p>
+                </div>
+            </div>
+
+            <div class="menu-item">
+                <i class="ti ti-list"></i>
+                <div>
+                    <h3>기록 보기 (History)</h3>
+                    <p>자재의 모든 입출고 이력을 타임라인 순으로 조회합니다.</p>
+                </div>
+            </div>
+
+            <div class="menu-item">
+                <i class="ti ti-settings"></i>
+                <div>
+                    <h3>앱 설정 (Settings)</h3>
+                    <p>알림 임계값 설정 및 사용자 권한을 관리합니다.</p>
+                    <span class="logic-tag">로직: 오프라인 데이터 동기화 관리</span>
+                </div>
+            </div>
+        </div>
+        
+        <div style="height: 100px;"></div> <!-- 하단 여백 확보 -->
     </div>
 </body>
 </html>
