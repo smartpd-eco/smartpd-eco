@@ -1,0 +1,21 @@
+{
+  "name": "smartpd-eco",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "mkdir -p dist && cp public/index.html dist/ && cp src/main.js src/style.css dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smartpd-eco/smartpd-eco.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/smartpd-eco/smartpd-eco/issues"
+  },
+  "homepage": "https://github.com/smartpd-eco/smartpd-eco#readme",
+  "description": ""
+}
